@@ -58,9 +58,7 @@ When the mongoDb instance is up and running there are two options to start the A
 1. To check that your application is running enter url `http://localhost:8083/healthcheck`
 
 The provided dockerfile allows containerization of the built application:
-`docker build --tag=todo-api .`
-
-`docker run -d --name todo-rest-api -p 8082:8082 -p 8083:8083 myapp`
+`docker run --rm  -d --network host --name todo-rest-api todo-api`
 
 Now the API should be available under `http://localhost:8082/todos`.
 

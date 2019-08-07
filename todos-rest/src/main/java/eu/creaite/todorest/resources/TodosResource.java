@@ -1,42 +1,39 @@
 package eu.creaite.todorest.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import eu.creaite.todorest.db.TodoDAO;
-import eu.creaite.todorest.db.beans.MongoTodo;
+import eu.creaite.todorest.api.beans.Todo;
+import eu.creaite.todorest.core.TodoController;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
-import java.util.UUID;
 
 @Path("/todos")
 public class TodosResource {
 
-    private final TodoDAO dao = new TodoDAO();
+    private final TodoController controller = new TodoController();
 
     @GET
     @Timed
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MongoTodo> listTodos() {
-        return dao.listAllTodos();
+    public List<Todo> listTodos() {
+        return controller.listAllTodos();
     }
 
     @POST
     @Timed
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public MongoTodo postTodo(MongoTodo todo ) {
-        todo.setId(UUID.randomUUID().toString());
-        dao.insertOneTodo(todo);
-        return todo;
+    public Todo postTodo(Todo todo ) {
+        return controller.postTodo(todo);
     }
 
     @GET
     @Timed
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public MongoTodo getSpecificTodo(@PathParam("id") String id) {
-        return dao.getOneTodo(id);
+    public Todo getSpecificTodo(@PathParam("id") String id) {
+        return controller.getOneTodo(id);
     }
 
     @PUT
@@ -44,8 +41,8 @@ public class TodosResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public MongoTodo replaceTodo(@PathParam("id") String id, MongoTodo todo) {
-        dao.updateTodo(todo);
+    public Todo replaceTodo(@PathParam("id") String id, Todo todo) {
+        controller.updateTodo(id, todo);
         return todo;
     }
 
@@ -54,7 +51,7 @@ public class TodosResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public void deleteTodo(@PathParam("id") String id){
-        dao.deleteTodo(id);
+        controller.deleteTodo(id);
     }
 
 }

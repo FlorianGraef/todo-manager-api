@@ -1,1 +1,3 @@
 curl -H "Content-Type: application/json" --data '{ "name": "TODO REST service", "description": "Write a REST API using Dropwizard implementing a couple of methods to store and retrieve TODO lists."}' -X POST http://localhost:8082/todos
+
+http://localhost:8082/todos/
